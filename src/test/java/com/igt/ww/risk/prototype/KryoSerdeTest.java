@@ -18,7 +18,7 @@ class KryoSerdeTest {
 
 		BetSerializer ser = new BetSerializer();
 		byte[] data = ser.serialize(TOPIC, bet);
-		assertThat(data.length).isLessThanOrEqualTo(700);
+		assertThat(data.length).isLessThanOrEqualTo(500);
 
 		BetDeserializer deser = new BetDeserializer();
 		Bet bet2 = deser.deserialize(TOPIC, data);
