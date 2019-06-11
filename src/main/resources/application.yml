@@ -1,0 +1,12 @@
+spring:
+   kafka:
+      consumer:
+         group-id: test_group
+         auto-offset-reset: earliest
+         key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+         value-deserializer: com.igt.ww.risk.prototype.domain.serialization.BetDeserializer
+      producer:
+         key-serializer: org.apache.kafka.common.serialization.LongSerializer
+         value-serializer: com.igt.ww.risk.prototype.domain.serialization.BetSerializer
+      listener:
+         concurrency: 16
