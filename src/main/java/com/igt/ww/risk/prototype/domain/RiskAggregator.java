@@ -27,7 +27,7 @@ public class RiskAggregator {
 		for (BetLeg leg : bet.getLegs())
 			selectionRisks.computeIfAbsent(leg.getSelectionId(), selectionId -> new LegRisk()).add(leg.getLegRisk());
 		for (UnitRisk unitRisk : bet.getUnitRisks())
-			unitRisks.computeIfAbsent(unitRisk.getSelectionIds(), selectionIds -> new UnitRisk()).add(unitRisk);
+			unitRisks.computeIfAbsent(unitRisk.getSelectionIds(), UnitRisk::new).add(unitRisk);
 	}
 
 	public synchronized long getCount() {

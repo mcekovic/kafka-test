@@ -1,5 +1,7 @@
 package com.igt.ww.risk.prototype;
 
+import java.time.*;
+
 import org.apache.kafka.clients.admin.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
@@ -52,10 +54,10 @@ class RiskAggregationPT {
 		System.out.print("Sending messages");
 		StopWatch sendStopWatch = new StopWatch(format("%d bets sending", BET_COUNT));
 		sendStopWatch.start();
-		for (long i = 1; i <= BET_COUNT; i++) {
-			kafkaTemplate.send(TOPIC_NAME, makeBet(i));
-			if (i % BET_CHUNK == 0)
-				System.out.printf("%d Messages sent.%n", i);
+		for (long betId = 1; betId <= BET_COUNT; betId++) {
+			kafkaTemplate.send(TOPIC_NAME, createBet(betId));
+			if (betId % BET_CHUNK == 0)
+				System.out.printf("%d Messages sent.%n", betId);
 		}
 		sendStopWatch.stop();
 		System.out.println(sendStopWatch);
@@ -63,6 +65,10 @@ class RiskAggregationPT {
 		stopWatch = new StopWatch(format("%d bets aggregation", BET_COUNT));
 		stopWatch.start();
 		listenerContainer.resume();
+	}
+
+	private Bet createBet(long betId) {
+		return betId % 3 == 0 ? makeBet(betId) : makeMultipleBet(betId);
 	}
 
 	@Test

@@ -14,11 +14,18 @@ class KryoSerdeTest {
 
 	@Test
 	void betIsSerializedAndDeserialized() {
-		Bet bet = makeBet();
+		serializeAndDeserializeBet(makeBet(), 200);
+	}
 
+	@Test
+	void multipleBetIsSerializedAndDeserialized() {
+		serializeAndDeserializeBet(makeMultipleBet(), 850);
+	}
+
+	private static void serializeAndDeserializeBet(Bet bet, int maxLength) {
 		BetSerializer ser = new BetSerializer();
 		byte[] data = ser.serialize(TOPIC, bet);
-		assertThat(data.length).isLessThanOrEqualTo(500);
+		assertThat(data.length).isLessThanOrEqualTo(maxLength);
 
 		BetDeserializer deser = new BetDeserializer();
 		Bet bet2 = deser.deserialize(TOPIC, data);
