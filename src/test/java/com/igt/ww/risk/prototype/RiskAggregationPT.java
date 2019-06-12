@@ -1,6 +1,6 @@
 package com.igt.ww.risk.prototype;
 
-import java.time.*;
+import java.util.concurrent.*;
 
 import org.apache.kafka.clients.admin.*;
 import org.junit.jupiter.api.*;
@@ -48,7 +48,7 @@ class RiskAggregationPT {
 	}
 
 	@BeforeAll
-	void betsFixture() {
+	void betsFixture() throws InterruptedException {
 		MessageListenerContainer listenerContainer = listenerRegistry.getListenerContainer(LISTENER_ID);
 		listenerContainer.pause();
 		System.out.print("Sending messages");
@@ -61,6 +61,9 @@ class RiskAggregationPT {
 		}
 		sendStopWatch.stop();
 		System.out.println(sendStopWatch);
+
+		TimeUnit.SECONDS.sleep(5);
+
 		System.out.print("Receiving messages");
 		stopWatch = new StopWatch(format("%d bets aggregation", BET_COUNT));
 		stopWatch.start();
